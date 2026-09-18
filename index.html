@@ -186,6 +186,18 @@
     .counter-value strong { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 2.2rem; line-height: .9; }
     .counter-value span { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
     .session-note { max-width: 560px; margin: 14px 0 0; color: #b8c3be; font-size: .9rem; line-height: 1.45; }
+    .name-input {
+      width: min(100%, 420px);
+      min-height: 52px;
+      border: 1px solid #53615a;
+      border-radius: 4px;
+      background: var(--white);
+      color: var(--dark);
+      padding: 12px 15px;
+      font: inherit;
+    }
+    .name-input::placeholder { color: #68736d; }
+    .name-note { margin: 8px 0 0; color: #b8c3be; font-size: .86rem; }
     .savings { display: inline-block; margin-top: 5px; font-weight: 800; }
     .validity-badge {
       display: inline-flex;
@@ -386,6 +398,11 @@
               </div>
               <p class="session-note">For 5–7 sessions, the extras can be used anywhere within the 4-session pack’s four-week window. The window starts with your first session.</p>
             </div>
+            <div class="step">
+              <label class="step-title" for="clientName"><b>4</b> What’s your name?</label>
+              <input class="name-input" id="clientName" name="name" type="text" autocomplete="name" maxlength="80" placeholder="Your name" />
+              <p class="name-note">We’ll add it to your booking email.</p>
+            </div>
           </div>
           <aside class="result" aria-live="polite" aria-atomic="true">
             <div class="result-label">Your session price</div>
@@ -497,7 +514,7 @@
   </footer>
 
   <script>
-    const state = { level: 'first', goal: 'foundations', sessions: 1 };
+    const state = { level: 'first', goal: 'foundations', sessions: 1, name: '' };
     const labels = {
       level: { first: 'First session', basics: 'Some basics', experienced: 'Experienced' },
       goal: { foundations: 'Solid foundations', vaults: 'Vaults & flow', flips: 'Flips & tricking', control: 'Strength & control' }
@@ -513,7 +530,7 @@
       const savings = fullPrice - total;
       let name;
       if (count === 1) name = '1 single session';
-      else if (count === 4) name = '1 × 4-session pack';
+      else if (count === 4) name = '4 session pack';
       else if (count >= 5 && count <= 7) {
         const extras = count - 4;
         name = `1 × 4-session pack + ${extras} extra session${extras === 1 ? '' : 's'}`;
@@ -537,11 +554,12 @@
       document.getElementById('validityBadge').textContent = plan.validity;
       document.getElementById('minusSession').disabled = state.sessions === 1;
       document.getElementById('plusSession').disabled = state.sessions === 8;
+      const nameLine = state.name.trim() ? `Name: ${state.name.trim()}\n` : '';
       const body = `Hi Jacob,
 
 I'm interested in private lessons.
 
-Sessions: ${state.sessions}
+${nameLine}Sessions: ${state.sessions}
 Total: ${fmt$(plan.total)}
 Experience: ${labels.level[state.level]}
 Goal: ${labels.goal[state.goal]}
@@ -565,6 +583,11 @@ What availability do you have?`;
       });
     });
 
+    document.getElementById('clientName').addEventListener('input', event => {
+      state.name = event.target.value;
+      render();
+    });
+
     document.getElementById('minusSession').addEventListener('click', () => {
       state.sessions = Math.max(1, state.sessions - 1);
       render();
@@ -585,7 +608,8 @@ What availability do you have?`;
     document.getElementById('copyPlan').addEventListener('click', async event => {
       const button = event.currentTarget;
       const plan = calculatePlan(state.sessions);
-      const text = `${state.sessions} session${state.sessions > 1 ? 's' : ''} — ${plan.parts.join(' + ')} — ${fmt$(plan.total)} total
+      const nameLine = state.name.trim() ? `${state.name.trim()}\n` : '';
+      const text = `${nameLine}${state.sessions} session${state.sessions > 1 ? 's' : ''} — ${plan.parts.join(' + ')} — ${fmt$(plan.total)} total
 ${labels.level[state.level]} · ${labels.goal[state.goal]}`;
       try {
         await navigator.clipboard.writeText(text);
