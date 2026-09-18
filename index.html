@@ -185,6 +185,7 @@
     .counter-value { background: var(--white); color: var(--dark); padding: 12px; text-align: center; }
     .counter-value strong { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 2.2rem; line-height: .9; }
     .counter-value span { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
+    .session-note { max-width: 560px; margin: 14px 0 0; color: #b8c3be; font-size: .9rem; line-height: 1.45; }
     .savings { display: inline-block; margin-top: 5px; font-weight: 800; }
     .validity-badge {
       display: inline-flex;
@@ -383,6 +384,7 @@
                 <div class="counter-value"><strong id="sessionCount">1</strong><span>sessions</span></div>
                 <button class="counter-btn" id="plusSession" type="button" aria-label="Add one session">+</button>
               </div>
+              <p class="session-note">For 5–7 sessions, the extras can be used anywhere within the 4-session pack’s four-week window. The window starts with your first session.</p>
             </div>
           </div>
           <aside class="result" aria-live="polite" aria-atomic="true">
@@ -428,7 +430,7 @@
           <article class="price-card featured">
             <div class="tag">8 sessions · one month</div>
             <h3>Expand it.</h3>
-            <p class="outcome">Build the proficiency needed to start learning variations on your flip, then apply the same progression to vaults, bars, walls, and floor movement. Reserve two weekly slots for a month.</p>
+            <p class="outcome">Build the proficiency needed to start learning variations on your movement, then apply the same progression to vaults, bars, walls, and floor movement. Reserve two weekly slots for a month.</p>
             <div class="price-details">
               <div class="amount">$500 total</div>
               <div class="per">$62.50/session · save $140 · valid 4 weeks from first session</div>
@@ -511,11 +513,17 @@
       const savings = fullPrice - total;
       let name;
       if (count === 1) name = '1 single session';
-      else if (count === 4) name = '4-session monthly pack';
-      else if (count === 8) name = '8-session monthly pack';
-      else if (count < 4) name = `${count}-session flexible bundle`;
-      else name = `${count}-session monthly package`;
-      const validity = count < 4 ? 'Use anytime — never expires' : 'Valid 4 weeks from first session';
+      else if (count === 4) name = '1 × 4-session pack';
+      else if (count >= 5 && count <= 7) {
+        const extras = count - 4;
+        name = `1 × 4-session pack + ${extras} extra session${extras === 1 ? '' : 's'}`;
+      } else if (count === 8) name = '8-session pack';
+      else name = `${count}-session flexible bundle`;
+      const validity = count < 4
+        ? 'Use anytime — never expires'
+        : count < 8
+          ? 'Pack and extras are usable within 4 weeks of your first session'
+          : 'Valid 4 weeks from first session';
       return { total, savings, name, validity, parts: [name] };
     }
 
