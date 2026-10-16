@@ -388,8 +388,8 @@
           <aside class="result" aria-live="polite" aria-atomic="true">
             <div class="result-label">Your session price</div>
             <h3 id="resultName">1 single session</h3>
-            <div class="result-price" id="resultPrice">$55 total</div>
-            <p id="resultReason">$55 per session. <span class="savings">Savings vs. the $55/session baseline: $0.</span></p>
+            <div class="result-price" id="resultPrice">$85 total</div>
+            <p id="resultReason">$85 per session. <span class="savings">Savings vs. the $85/session baseline: $0.</span></p>
             <div class="validity-badge" id="validityBadge">Use anytime — never expires</div>
             <a class="btn dark" id="bookLink" href="mailto:ranneystunts00@gmail.com?subject=Private%20lesson%20inquiry">Email Jacob to book</a>
             <button class="copy-btn" id="copyPlan" type="button">Copy lesson summary</button>
@@ -410,28 +410,28 @@
             <h3>Learn it.</h3>
             <p class="outcome">With the right starting point, you could learn your backflip in one focused session—or make meaningful progress on whatever skill you came for. Book anytime; your session never expires.</p>
             <div class="price-details">
-              <div class="amount">$55 total</div>
-              <div class="per">$55/session · use anytime</div>
+              <div class="amount">$85 total</div>
+              <div class="per">$85/session · use anytime</div>
             </div>
             <button class="select-plan" type="button" data-sessions="1">Choose single</button>
           </article>
           <article class="price-card">
-            <div class="tag">4 sessions · one month</div>
+            <div class="tag">4 sessions · up to two months</div>
             <h3>Own it.</h3>
-            <p class="outcome">Refine it until it’s consistent, clean, and safe. Reserve one weekly slot for a month—the difference between landing it once and truly owning it.</p>
+            <p class="outcome">Refine it until it’s consistent, clean, and safe. Spread your sessions across up to two months—the difference between landing it once and truly owning it.</p>
             <div class="price-details">
-              <div class="amount">$190 total</div>
-              <div class="per">$47.50/session · save $30 · valid 4 weeks from first session</div>
+              <div class="amount">$280 total</div>
+              <div class="per">$70/session · save $60 · use within 2 months of first session</div>
             </div>
             <button class="select-plan" type="button" data-sessions="4">Choose 4 sessions</button>
           </article>
           <article class="price-card featured">
-            <div class="tag">8 sessions · one month</div>
+            <div class="tag">8 sessions · up to two months</div>
             <h3>Expand it.</h3>
-            <p class="outcome">Build the proficiency needed to start learning variations on your flip, then apply the same progression to vaults, bars, walls, and floor movement. Reserve two weekly slots for a month.</p>
+            <p class="outcome">Build the proficiency needed to start learning variations on your flip, then apply the same progression to vaults, bars, walls, and floor movement. Spread your sessions across up to two months.</p>
             <div class="price-details">
-              <div class="amount">$300 total</div>
-              <div class="per">$37.50/session · save $140 · valid 4 weeks from first session</div>
+              <div class="amount">$400 total</div>
+              <div class="per">$50/session · save $280 · use within 2 months of first session</div>
             </div>
             <button class="select-plan" type="button" data-sessions="8">Choose 8 sessions</button>
           </article>
@@ -468,11 +468,15 @@
         <div class="faq-list">
           <details>
             <summary>Do my sessions expire?</summary>
-            <p>One to three sessions never expire, so you can book whenever you’re ready. You can purchase a package of four to eight sessions whenever you like; its four-week validity begins with your first session.</p>
+            <p>One to three sessions never expire, so you can book whenever you’re ready. You can purchase a package of four to eight sessions whenever you like; its two-month window begins with your first session.</p>
           </details>
           <details>
-            <summary>How do the monthly slots work?</summary>
-            <p>A 4-pack reserves one weekly slot for one month. An 8-pack reserves two weekly slots for one month.</p>
+            <summary>How long do I have to use a pack?</summary>
+            <p>Packs of 4 to 8 sessions can spread out over up to two months, starting from your first session. The 5, 6, and 7-session options work as add-ons inside that same two-month window.</p>
+          </details>
+          <details>
+            <summary>When can we train?</summary>
+            <p>Saturdays and Sundays are the most open. Weekday sessions run after 5 PM.</p>
           </details>
         </div>
       </div>
@@ -502,7 +506,7 @@
     };
 
     // Each added session costs $5 less, with eight sessions as the maximum package.
-    const marginalPrices = [55, 50, 45, 40, 35, 30, 25, 20];
+    const marginalPrices = [85, 75, 65, 55, 45, 35, 25, 15];
     const fmt$ = value => Number.isInteger(value) ? `$${value}` : `$${value.toFixed(2)}`;
 
     function calculatePlan(count) {
@@ -511,11 +515,11 @@
       const savings = fullPrice - total;
       let name;
       if (count === 1) name = '1 single session';
-      else if (count === 4) name = '4-session monthly pack';
-      else if (count === 8) name = '8-session monthly pack';
+      else if (count === 4) name = '4-session pack';
+      else if (count === 8) name = '8-session pack';
       else if (count < 4) name = `${count}-session flexible bundle`;
-      else name = `${count}-session monthly package`;
-      const validity = count < 4 ? 'Use anytime — never expires' : 'Valid 4 weeks from first session';
+      else name = `${count}-session package`;
+      const validity = count < 4 ? 'Use anytime — never expires' : 'Valid 2 months from first session';
       return { total, savings, name, validity, parts: [name] };
     }
 
@@ -525,7 +529,7 @@
       document.getElementById('sessionCount').textContent = state.sessions;
       document.getElementById('resultName').textContent = plan.name;
       document.getElementById('resultPrice').textContent = `${fmt$(plan.total)} total`;
-      document.getElementById('resultReason').innerHTML = `${fmt$(perSession)} per session. <span class="savings">Savings vs. the $55/session baseline: ${fmt$(plan.savings)}.</span>`;
+      document.getElementById('resultReason').innerHTML = `${fmt$(perSession)} per session. <span class="savings">Savings vs. the $85/session baseline: ${fmt$(plan.savings)}.</span>`;
       document.getElementById('validityBadge').textContent = plan.validity;
       document.getElementById('minusSession').disabled = state.sessions === 1;
       document.getElementById('plusSession').disabled = state.sessions === 8;
