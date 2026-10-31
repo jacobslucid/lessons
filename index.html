@@ -353,9 +353,9 @@
     body { background-color: #0b100e; }
     .bg-stage { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: #0a0f0d; }
     .bg-video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-    .bg-blur { object-fit: cover; filter: blur(42px) brightness(.62) saturate(1.15); transform: scale(1.15); }
+    .bg-blur { object-fit: cover; filter: blur(42px) brightness(.74) saturate(1.15); transform: scale(1.15); }
     .bg-main { object-fit: contain; }
-    .bg-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(9,14,12,.76) 0%, rgba(9,14,12,.85) 34%, rgba(9,14,12,.90) 100%); }
+    .bg-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(9,14,12,.70) 0%, rgba(9,14,12,.82) 34%, rgba(9,14,12,.88) 100%); }
     @media (max-width: 620px) {
       .bg-blur { display: none; }
       .bg-main { object-fit: cover; object-position: center 48%; }
@@ -369,6 +369,7 @@
     .faq .section-head h2 { color: var(--white); }
     .faq .section-head p { color: #b8c3be; }
     .booking::before { content: none; }
+    #pricing::before { content: none; }
     footer { background: transparent; }
     .story-grid { max-width: none; }
     .story-photo { margin: 0; }
